@@ -1,5 +1,6 @@
-package jbloom.core;
+package jbloom.test;
 
+import jbloom.core.BloomFilter;
 import junit.framework.TestCase;
 import org.junit.Test;
 

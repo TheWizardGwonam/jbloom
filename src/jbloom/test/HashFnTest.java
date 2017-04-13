@@ -1,5 +1,6 @@
-package jbloom.util;
+package jbloom.test;
 
+import jbloom.util.HashFn;
 import junit.framework.TestCase;
 import org.junit.Test;
 
