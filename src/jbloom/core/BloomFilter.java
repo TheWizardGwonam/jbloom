@@ -90,12 +90,4 @@ public class BloomFilter {
             throws CloneNotSupportedException, IndexOutOfBoundsException {
         return this.add(key, false);
     }
-
-    public static void main(String[] args)
-            throws NoSuchAlgorithmException, CloneNotSupportedException, IndexOutOfBoundsException {
-        BloomFilter bf = new BloomFilter(10000000);
-        bf.add("x");
-        System.out.println(bf.has("x"));
-        System.out.println(bf.has("a"));
-    }
 }

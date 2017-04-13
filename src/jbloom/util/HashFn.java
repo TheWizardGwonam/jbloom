@@ -98,13 +98,4 @@ public class HashFn {
         }
         return return_val;
     }
-
-    public static void main(String[] args)
-            throws java.lang.Exception{
-        HashFn hash = new HashFn(2, 1<<13);
-        System.out.println(hash.fmt_code);
-        for(int item : hash.hash("a")){
-            System.out.println(item);
-        }
-    }
 }
