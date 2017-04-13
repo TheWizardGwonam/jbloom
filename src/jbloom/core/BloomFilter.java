@@ -12,7 +12,8 @@ A Bloom Filter is a probabilistic data structure that utilizes
 hashing algorithms to create a representation of a set.
 It can't produce a false negative but it has some controllable
 chance of producing a false positive because of the nature
-of finite hashes and finite bit vectors
+of finite hashes and finite bit vectors. This implementation is based
+on the dynamic-pybloom library from python (https://github.com/srf5132/dynamic-pybloom)
  */
 
 public class BloomFilter {
