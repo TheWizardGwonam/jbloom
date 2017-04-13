@@ -1,13 +1,17 @@
+package jbloom.util;
+
+import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+
 /*
+created by Sam Findler on 4/12/2017
+
 Every Bloom Filter has a series of hash functions associated with it.
 HashFn implements that hash and allows the BloomFilter to carry it around with it
 Unfortunately a current limitation of java is 32 bit array indexing, so it won't be quite as
 robust as the python version
  */
 
-package jbloom;
-import java.nio.ByteBuffer;
-import java.security.MessageDigest;
 
 public class HashFn {
     private int num_salts, fmt_length, num_slices, num_bits;

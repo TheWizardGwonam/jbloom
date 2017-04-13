@@ -1,4 +1,4 @@
-package jbloom;
+package jbloom.core;
 
 import java.util.BitSet;
 
