@@ -5,6 +5,16 @@ import jbloom.util.HashFn;
 import java.security.NoSuchAlgorithmException;
 import java.util.BitSet;
 
+/*
+Created by Sam Findler on 4/12/2017
+
+A Bloom Filter is a probabilistic data structure that utilizes
+hashing algorithms to create a representation of a set.
+It can't produce a false negative but it has some controllable
+chance of producing a false positive because of the nature
+of finite hashes and finite bit vectors
+ */
+
 public class BloomFilter {
     private BitSet bitarray;
     private HashFn hash;
@@ -37,7 +47,7 @@ public class BloomFilter {
         this.count = count;
         this.num_bits = num_slices * bits_per_slice;
 
-        //if num_bits > Integer.MAX_VALUE the indexing will break
+        // if num_bits > Integer.MAX_VALUE the indexing will break
         assert(this.num_bits <= Integer.MAX_VALUE);
         this.hash = new HashFn(num_slices, bits_per_slice);
     }

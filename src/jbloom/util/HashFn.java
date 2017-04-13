@@ -18,7 +18,8 @@ public class HashFn {
     private char fmt_code;
     private MessageDigest[] salts;
 
-    public HashFn(int num_slices, int num_bits) throws java.security.NoSuchAlgorithmException{
+    public HashFn(int num_slices, int num_bits)
+            throws java.security.NoSuchAlgorithmException{
         String hash_type;
         int chunk_size, total_hash_bits;
 
@@ -67,7 +68,8 @@ public class HashFn {
         }
     }
 
-    public int[] hash(String key) throws java.lang.CloneNotSupportedException{
+    public int[] hash(String key)
+            throws java.lang.CloneNotSupportedException{
         int[] return_val = new int[num_slices];
         int counter = 0;
         for(int i = 0; i < num_salts; i++){
@@ -97,7 +99,8 @@ public class HashFn {
         return return_val;
     }
 
-    public static void main(String[] args) throws java.lang.Exception{
+    public static void main(String[] args)
+            throws java.lang.Exception{
         HashFn hash = new HashFn(2, 1<<13);
         System.out.println(hash.fmt_code);
         for(int item : hash.hash("a")){
