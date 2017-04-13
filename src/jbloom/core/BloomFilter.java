@@ -36,6 +36,8 @@ public class BloomFilter {
         this.capacity = capacity;
         this.count = count;
         this.num_bits = num_slices * bits_per_slice;
+
+        //if num_bits > Integer.MAX_VALUE the indexing will break
         assert(this.num_bits <= Integer.MAX_VALUE);
         this.hash = new HashFn(num_slices, bits_per_slice);
     }
@@ -81,8 +83,9 @@ public class BloomFilter {
 
     public static void main(String[] args)
             throws NoSuchAlgorithmException, CloneNotSupportedException, IndexOutOfBoundsException {
-        BloomFilter bf = new BloomFilter(100);
+        BloomFilter bf = new BloomFilter(10000000);
         bf.add("x");
         System.out.println(bf.has("x"));
+        System.out.println(bf.has("a"));
     }
 }
