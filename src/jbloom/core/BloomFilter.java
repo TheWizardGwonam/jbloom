@@ -2,6 +2,8 @@ package jbloom.core;
 
 import jbloom.util.HashFn;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.security.NoSuchAlgorithmException;
 import java.util.BitSet;
 
@@ -117,5 +119,28 @@ public class BloomFilter {
         BloomFilter return_bloom = this.clone();
         return_bloom.bitarray.or(other.bitarray);
         return return_bloom;
+    }
+
+    public String toString(){
+        String return_str = "", order = "";
+        ByteBuffer bytes = ByteBuffer.allocate((int) Math.ceil(num_bits/8.));
+        bytes.put(bitarray.toByteArray());
+        if(bytes.order() == ByteOrder.LITTLE_ENDIAN){
+            order = "little";
+        }
+        else{
+            order = "big";
+        }
+        return_str += Double.valueOf(error_rate).toString();
+        return_str += ":" + Integer.valueOf(num_slices).toString();
+        return_str += ":" + Integer.valueOf(bits_per_slice).toString();
+        return_str += ":" + Integer.valueOf(capacity).toString();
+        return_str += ":" + Integer.valueOf(count).toString();
+        return_str += ":" + order;
+        return_str += ":";
+        for(byte a : bytes.array()){
+            return_str += String.format("%02X", a);
+        }
+        return return_str;
     }
 }

@@ -1,6 +1,10 @@
 package jbloom.util;
 
+import sun.plugin2.message.Message;
+
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 
 /*
@@ -14,9 +18,9 @@ robust as the python version
 
 
 public class HashFn {
-    private int num_salts, fmt_length, num_slices, num_bits;
-    private char fmt_code;
-    private MessageDigest[] salts;
+    public int num_salts, fmt_length, num_slices, num_bits;
+    public char fmt_code;
+    public MessageDigest[] salts;
 
     public HashFn(int num_slices, int num_bits)
             throws java.security.NoSuchAlgorithmException{
@@ -54,17 +58,12 @@ public class HashFn {
         num_salts = (int) Math.ceil((double) num_slices / (double) fmt_length);
         salts = new MessageDigest[num_salts];
         for(int i = 0; i < num_salts; i++){
-            ByteBuffer struct_to_pack;
-            if(fmt_code == 'I') {
-                struct_to_pack = ByteBuffer.allocate(8*fmt_length);
-                struct_to_pack.putInt(i);
-            }
-            else{
-                struct_to_pack = ByteBuffer.allocate(4*fmt_length);
-                struct_to_pack.putShort((short) i);
-            }
+            ByteBuffer struct = ByteBuffer.allocate(4);
+            struct.putInt(i);
             salts[i] = MessageDigest.getInstance(hash_type);
-            salts[i].update(MessageDigest.getInstance(hash_type).digest(struct_to_pack.array()));
+            MessageDigest temp = MessageDigest.getInstance(hash_type);
+            temp.update(struct.array());
+            salts[i].update(temp.digest());
         }
     }
 
@@ -74,11 +73,15 @@ public class HashFn {
         int counter = 0;
         for(int i = 0; i < num_salts; i++){
             MessageDigest hash = (MessageDigest) salts[i].clone();
-            hash.update(key.getBytes());
+            hash.update(key.getBytes(Charset.forName("UTF-8")));
             if(fmt_code == 'I'){
+                ByteBuffer buffer = ByteBuffer.allocate(4*fmt_length);
+                buffer.order(ByteOrder.LITTLE_ENDIAN);
+                buffer.put(hash.digest());
+                buffer.position(0);
                 for(int j = 0; j < fmt_length; j++){
-                    long item = Integer.toUnsignedLong(ByteBuffer.wrap(hash.digest()).getInt(j*2));
-                    return_val[counter] = Integer.valueOf(String.valueOf(item % num_bits));
+                    long item = Integer.toUnsignedLong(buffer.getInt());
+                    return_val[counter] = (int) item % num_bits;
                     counter++;
                     if(counter == num_slices){
                         return return_val;
@@ -86,8 +89,12 @@ public class HashFn {
                 }
             }
             else if(fmt_code == 'H'){
+                ByteBuffer buffer = ByteBuffer.allocate(2*fmt_length);
+                buffer.order(ByteOrder.LITTLE_ENDIAN);
+                buffer.put(hash.digest());
+                buffer.position(0);
                 for(int j = 0; j < fmt_length; j++){
-                    int item = Short.toUnsignedInt(ByteBuffer.wrap(hash.digest()).getShort(j*2));
+                    int item = Short.toUnsignedInt(buffer.getShort());
                     return_val[counter] = item % num_bits;
                     counter++;
                     if(counter == num_slices){

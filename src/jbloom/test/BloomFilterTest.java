@@ -67,4 +67,15 @@ public class BloomFilterTest extends TestCase {
             assertTrue(union.has(Integer.valueOf(i).toString()));
         }
     }
+
+    @Test
+    public void testToString()
+            throws NoSuchAlgorithmException, CloneNotSupportedException {
+        int capacity = 1000;
+        BloomFilter bf = new BloomFilter(capacity);
+        for(int i = 0; i < capacity; i++){
+            bf.add(Integer.valueOf(i).toString());
+        }
+        System.out.println(bf);
+    }
 }
