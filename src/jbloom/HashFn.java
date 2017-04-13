@@ -21,7 +21,7 @@ public class HashFn {
         this.num_slices = num_slices;
         this.num_bits = num_bits;
 
-        if(num_bits >= 1 << 15){
+        if(num_bits >= Short.MAX_VALUE){
             fmt_code = 'I';
             chunk_size = 4;
         }
@@ -51,11 +51,11 @@ public class HashFn {
         for(int i = 0; i < num_salts; i++){
             ByteBuffer struct_to_pack;
             if(fmt_code == 'I') {
-                struct_to_pack = ByteBuffer.allocate(32);
+                struct_to_pack = ByteBuffer.allocate(8*fmt_length);
                 struct_to_pack.putInt(i);
             }
             else{
-                struct_to_pack = ByteBuffer.allocate(16);
+                struct_to_pack = ByteBuffer.allocate(4*fmt_length);
                 struct_to_pack.putShort((short) i);
             }
             salts[i] = MessageDigest.getInstance(hash_type);
@@ -70,24 +70,34 @@ public class HashFn {
             MessageDigest hash = (MessageDigest) salts[i].clone();
             hash.update(key.getBytes());
             if(fmt_code == 'I'){
-                for(int item : ByteBuffer.wrap(hash.digest()).asIntBuffer().array()){
-                    return_val[counter] = item % num_bits;
+                for(int j = 0; j < fmt_length; j++){
+                    long item = Integer.toUnsignedLong(ByteBuffer.wrap(hash.digest()).getInt(j*2));
+                    return_val[counter] = Integer.valueOf(String.valueOf(item % num_bits));
                     counter++;
-                    if(counter > num_slices){
+                    if(counter == num_slices){
                         return return_val;
                     }
                 }
             }
             else if(fmt_code == 'H'){
-                for(short item : ByteBuffer.wrap(hash.digest()).asShortBuffer().array()){
+                for(int j = 0; j < fmt_length; j++){
+                    int item = Short.toUnsignedInt(ByteBuffer.wrap(hash.digest()).getShort(j*2));
                     return_val[counter] = item % num_bits;
                     counter++;
-                    if(counter > num_slices){
+                    if(counter == num_slices){
                         return return_val;
                     }
                 }
             }
         }
         return return_val;
+    }
+
+    public static void main(String[] args) throws java.lang.Exception{
+        HashFn hash = new HashFn(2, 1<<13);
+        System.out.println(hash.fmt_code);
+        for(int item : hash.hash("a")){
+            System.out.println(item);
+        }
     }
 }
