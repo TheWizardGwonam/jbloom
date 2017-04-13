@@ -29,7 +29,7 @@ public class HashFnTest extends TestCase {
         assertArrayEquals(test, hashed);
 
         //a hash of a thing should always be the same
-        assertArrayEquals(hash.hash("a"),hash.hash("a"));
+        assertArrayEquals(hash.hash("a"), hash.hash("a"));
 
         //we know that for this setup the hash of "a" and "b" should be different
         assertNotEquals(hash.hash("b")[0], hash.hash("a")[0]);

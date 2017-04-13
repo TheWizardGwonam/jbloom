@@ -53,7 +53,7 @@ public class DynamicBloomFilterTest extends TestCase {
             dbf.add(Integer.valueOf(i).toString());
         }
         String test = dbf.toString();
-        System.out.println(test);
+
         dbf = DynamicBloomFilter.fromString(test);
         for(int i = 0; i < 1000; i++){
             assertTrue(dbf.has(Integer.valueOf(i).toString()));

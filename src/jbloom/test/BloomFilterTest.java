@@ -76,10 +76,8 @@ public class BloomFilterTest extends TestCase {
         for(int i = 0; i < capacity; i++){
             bf.add(Integer.valueOf(i).toString());
         }
-        System.out.println(bf);
         String bloom = bf.toString();
         bf = BloomFilter.fromString(bloom);
-        System.out.println(bf);
         for(int i = 0; i < capacity; i++){
             assertTrue(bf.has(Integer.valueOf(i).toString()));
         }
