@@ -1,19 +1,20 @@
 package jbloom.examples;
 
-import jbloom.core.BloomFilter;
+import jbloom.core.DynamicBloomFilter;
 
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by srf51 on 4/12/2017.
+ * Created by Sam on 4/13/2017.
  */
-public class BloomFilterExample {
+public class DynamicBloomFilterExample {
     public static void main(String[] args)
             throws NoSuchAlgorithmException, CloneNotSupportedException, IndexOutOfBoundsException {
 
         //instantiates a bloom filter with capacity = 1000, error_rate = 5%
         int capacity = 1000;
-        BloomFilter bf = new BloomFilter(capacity, 0.05);
+        int base_capacity = 10;
+        DynamicBloomFilter bf = new DynamicBloomFilter(base_capacity, capacity, 0.05);
 
         //add a String x to the bloom filter.  Currently only strings can be added
         bf.add("x");
@@ -26,8 +27,8 @@ public class BloomFilterExample {
 
         //two bloom filters with the same error_rate and capacity can be intersected or unioned,
         //which behaves about how you'd expect
-        BloomFilter bf1 = new BloomFilter(capacity, 0.05);
-        BloomFilter bf2 = new BloomFilter(capacity, 0.05);
+        DynamicBloomFilter bf1 = new DynamicBloomFilter(base_capacity, capacity, 0.05);
+        DynamicBloomFilter bf2 = new DynamicBloomFilter(base_capacity, capacity, 0.05);
         for(int i = 0; i < capacity; i++){
             bf1.add(Integer.valueOf(i).toString());
             bf2.add(Integer.valueOf(i + capacity/2).toString());
@@ -47,7 +48,7 @@ public class BloomFilterExample {
         System.out.println(s);
 
         //when we read it back in, it better have the same stuff in it!
-        bf = BloomFilter.fromString(s);
+        bf = DynamicBloomFilter.fromString(s);
         for(int i = 0; i < capacity; i++){
             assert(bf.has(Integer.valueOf(i).toString()));
         }
