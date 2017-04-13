@@ -18,9 +18,9 @@ robust as the python version
 
 
 public class HashFn {
-    public int num_salts, fmt_length, num_slices, num_bits;
-    public char fmt_code;
-    public MessageDigest[] salts;
+    private int num_salts, fmt_length, num_slices, num_bits;
+    private char fmt_code;
+    private MessageDigest[] salts;
 
     public HashFn(int num_slices, int num_bits)
             throws java.security.NoSuchAlgorithmException{

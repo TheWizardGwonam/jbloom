@@ -21,13 +21,13 @@ public class HashFnTest extends TestCase {
             throws NoSuchAlgorithmException, CloneNotSupportedException {
         HashFn hash = new HashFn(10,1438);
 
-        MessageDigest hashing = (MessageDigest) hash.salts[0].clone();
-        hashing.update("a".getBytes());
+        int[] hashed = hash.hash("a");
+        int[] test = new int[]{537, 1167, 1421, 1367, 913, 498, 173, 54, 875, 707};
 
+        //test is what the python version gives for the hash, should be the same as ours
+        //to maintain compatibility
+        assertArrayEquals(test, hashed);
 
-        for(int i : hash.hash("a")){
-            System.out.println(i);
-        }
         //a hash of a thing should always be the same
         assertArrayEquals(hash.hash("a"),hash.hash("a"));
 
