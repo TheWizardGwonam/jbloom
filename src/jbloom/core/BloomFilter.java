@@ -25,7 +25,7 @@ public class BloomFilter {
     private double error_rate;
     private int num_slices, bits_per_slice, num_bits;
 
-    protected int count, capacity;
+    private int count,capacity;
 
     public BloomFilter(int capacity, double error_rate)
             throws NoSuchAlgorithmException {
@@ -176,5 +176,13 @@ public class BloomFilter {
         bytes.position(0);
         return_bloom.bitarray = (BitSet) BitSet.valueOf(bytes).clone();
         return return_bloom;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 }
