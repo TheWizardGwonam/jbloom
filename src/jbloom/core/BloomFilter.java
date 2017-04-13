@@ -1,5 +1,6 @@
 package jbloom.core;
 
+import javafx.scene.effect.Bloom;
 import jbloom.util.HashFn;
 
 import java.nio.ByteBuffer;
@@ -139,8 +140,41 @@ public class BloomFilter {
         return_str += ":" + order;
         return_str += ":";
         for(byte a : bytes.array()){
-            return_str += String.format("%02X", a);
+            return_str += String.format("%02x", a);
         }
         return return_str;
+    }
+
+    public static BloomFilter fromString(String s)
+            throws NoSuchAlgorithmException {
+        String[] values = s.split(":");
+        BloomFilter return_bloom = new BloomFilter(1);
+        double error_rate;
+        int num_slices, bits_per_slice, capacity, count;
+        String order;
+        byte[] buf;
+
+        error_rate = Double.valueOf(values[0]);
+        num_slices = Integer.valueOf(values[1]);
+        bits_per_slice = Integer.valueOf(values[2]);
+        capacity = Integer.valueOf(values[3]);
+        count = Integer.valueOf(values[4]);
+        order = values[5];
+        return_bloom.setup(error_rate, num_slices, bits_per_slice, capacity, count);
+        ByteBuffer bytes = ByteBuffer.allocate((int) Math.ceil(num_slices * bits_per_slice/8.));
+        if(order.equals("little")){
+            bytes.order(ByteOrder.LITTLE_ENDIAN);
+        }
+        else{
+            bytes.order(ByteOrder.BIG_ENDIAN);
+        }
+        buf = new byte[values[6].length()/2];
+        for(int i = 0; i < values[6].length(); i += 2){
+            buf[i/2] = (byte) (Integer.parseInt(values[6].substring(i, i + 2), 16) & 0xFF);
+        }
+        bytes.put(buf);
+        bytes.position(0);
+        return_bloom.bitarray = (BitSet) BitSet.valueOf(bytes).clone();
+        return return_bloom;
     }
 }
