@@ -24,7 +24,8 @@ public class BloomFilter {
 
     protected int count, capacity;
 
-    public BloomFilter(int capacity, double error_rate) throws NoSuchAlgorithmException {
+    public BloomFilter(int capacity, double error_rate)
+            throws NoSuchAlgorithmException {
         assert(0 < error_rate && error_rate < 1);
         assert(capacity > 0);
 
@@ -36,11 +37,13 @@ public class BloomFilter {
         bitarray = new BitSet();
     }
 
-    public BloomFilter(int capacity) throws NoSuchAlgorithmException {
+    public BloomFilter(int capacity)
+            throws NoSuchAlgorithmException {
         this(capacity, 0.001);
     }
 
-    protected void setup(double error_rate, int num_slices, int bits_per_slice, int capacity, int count) throws NoSuchAlgorithmException {
+    protected void setup(double error_rate, int num_slices, int bits_per_slice, int capacity, int count)
+            throws NoSuchAlgorithmException {
         this.error_rate = error_rate;
         this.num_slices = num_slices;
         this.bits_per_slice = bits_per_slice;
@@ -53,7 +56,8 @@ public class BloomFilter {
         this.hash = new HashFn(num_slices, bits_per_slice);
     }
 
-    public boolean has(String key) throws CloneNotSupportedException {
+    public boolean has(String key)
+            throws CloneNotSupportedException {
         int[] hashes = hash.hash(key);
         int offset = 0;
         for(int i : hashes){
