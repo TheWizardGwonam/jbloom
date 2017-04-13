@@ -17,7 +17,7 @@ on the dynamic-pybloom library from python (https://github.com/srf5132/dynamic-p
  */
 
 public class BloomFilter {
-    private BitSet bitarray;
+    protected BitSet bitarray;
     private HashFn hash;
     private double error_rate;
     private int num_slices, bits_per_slice, num_bits;
@@ -94,5 +94,28 @@ public class BloomFilter {
     public boolean add(String key)
             throws CloneNotSupportedException, IndexOutOfBoundsException {
         return this.add(key, false);
+    }
+
+    public BloomFilter clone(){
+        try {
+            BloomFilter return_bloom = new BloomFilter(this.capacity, this.error_rate);
+            return_bloom.bitarray = (BitSet) this.bitarray.clone();
+            return return_bloom;
+        }catch(Exception e) {
+            //should never get here but return null just in case
+            return null;
+        }
+    }
+
+    public BloomFilter intersection(BloomFilter other){
+        BloomFilter return_bloom = this.clone();
+        return_bloom.bitarray.and(other.bitarray);
+        return return_bloom;
+    }
+
+    public BloomFilter union(BloomFilter other){
+        BloomFilter return_bloom = this.clone();
+        return_bloom.bitarray.or(other.bitarray);
+        return return_bloom;
     }
 }
