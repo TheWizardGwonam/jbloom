@@ -11,6 +11,12 @@ public class DynamicBloomFilter {
     private double individual_error_rate, max_error_rate;
     private int base_capacity, max_capacity;
 
+    /**
+     * Creates a DynamicBloomFilter
+     * @param base_capacity capacity of each bloom filter in the filter
+     * @param max_capacity overall maximum capacity
+     * @param error_rate maximum error rte
+     */
     public DynamicBloomFilter(int base_capacity, int max_capacity, double error_rate){
         assert(error_rate > 0 && error_rate < 1);
         assert(base_capacity > 0);
@@ -22,6 +28,12 @@ public class DynamicBloomFilter {
         this.max_capacity = max_capacity;
     }
 
+    /**
+     * Lookup to see if a key is in the bloom filter
+     * @param key
+     * @return True if in the filter, False if not in the filter with error_rate < the max fro the filter
+     * @throws CloneNotSupportedException
+     */
     public boolean has(String key)
             throws CloneNotSupportedException {
         for(int i = filters.size() - 1; i > -1; i--){
@@ -32,6 +44,13 @@ public class DynamicBloomFilter {
         return false;
     }
 
+    /**
+     * Add key to the bloom filter
+     * @param key
+     * @return true if it was already in, false if it wasn't
+     * @throws CloneNotSupportedException
+     * @throws IndexOutOfBoundsException
+     */
     public boolean add(String key)
             throws CloneNotSupportedException, NoSuchAlgorithmException {
         BloomFilter filter;
@@ -53,6 +72,11 @@ public class DynamicBloomFilter {
         return false;
     }
 
+    /**
+     * Form the union of two bloom filters
+     * @param other
+     * @return this | other
+     */
     public DynamicBloomFilter union(DynamicBloomFilter other){
         DynamicBloomFilter return_filter = new DynamicBloomFilter(base_capacity, max_capacity, max_error_rate);
         ArrayList<BloomFilter> other_filters = other.filters;
@@ -75,6 +99,11 @@ public class DynamicBloomFilter {
         return return_filter;
     }
 
+    /**
+     * Form the intersection of the bloom filter
+     * @param other
+     * @return this & other
+     */
     public DynamicBloomFilter intersection(DynamicBloomFilter other)
             throws NoSuchAlgorithmException {
         DynamicBloomFilter return_filter = new DynamicBloomFilter(base_capacity, max_capacity, max_error_rate);
@@ -88,6 +117,10 @@ public class DynamicBloomFilter {
         return return_filter;
     }
 
+    /**
+     * Stringify the bloom filter in a way that is compatible with the python version of the library
+     * @return stringified bloom filter
+     */
     public String toString(){
         String return_string = "";
         return_string += Integer.valueOf(base_capacity).toString();
@@ -100,6 +133,13 @@ public class DynamicBloomFilter {
         return return_string;
     }
 
+    /**
+     * UnStringify a Stringified bloom filter s
+     * Used to import from python
+     * @param s
+     * @return Bloom filter from that string
+     * @throws NoSuchAlgorithmException
+     */
     public static DynamicBloomFilter fromString(String s)
             throws NoSuchAlgorithmException {
         String[] values = s.split(",");

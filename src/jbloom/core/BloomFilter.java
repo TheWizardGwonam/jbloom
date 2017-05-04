@@ -208,7 +208,7 @@ public class BloomFilter {
 
     /**
      * UnStringify a Stringified bloom filter s
-     * Used to inport from python
+     * Used to import from python
      * @param s
      * @return Bloom filter from that string
      * @throws NoSuchAlgorithmException
