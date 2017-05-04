@@ -24,11 +24,11 @@ public class DynamicBloomFilterTest extends TestCase {
     public void testUnion() throws Exception {
         DynamicBloomFilter dbf1 = new DynamicBloomFilter(100,1000000,0.001);
         DynamicBloomFilter dbf2 = new DynamicBloomFilter(100,1000000,0.001);
-        for(int i = 0; i < 1000; i++){
+        for(int i = 0; i < 500; i++){
             dbf1.add(Integer.valueOf(i).toString());
-            dbf1.add(Integer.valueOf(i + 1000/2).toString());
+            dbf1.add(Integer.valueOf(i + 500/2).toString());
         }
-        for(int i = 0; i < 1500; i++){
+        for(int i = 0; i < 750; i++){
             assertTrue(dbf1.union(dbf2).has(Integer.valueOf(i).toString()));
         }
     }

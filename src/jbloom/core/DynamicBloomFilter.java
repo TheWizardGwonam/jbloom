@@ -1,9 +1,7 @@
 package jbloom.core;
 
-import java.lang.reflect.Array;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Created by Sam on 4/13/2017.
@@ -57,12 +55,23 @@ public class DynamicBloomFilter {
 
     public DynamicBloomFilter union(DynamicBloomFilter other){
         DynamicBloomFilter return_filter = new DynamicBloomFilter(base_capacity, max_capacity, max_error_rate);
-        for(BloomFilter filter : filters){
-            return_filter.filters.add(filter);
+        ArrayList<BloomFilter> other_filters = other.filters;
+        for(int i = 0; i < this.filters.size(); i++) {
+            boolean found_union_mate = false;
+            for (int j = 0; j < other.filters.size(); j++) {
+                int other_filter_index = other.filters.size() - 1 - j;
+                BloomFilter union_filter = (this.filters.get(i).union(other.filters.get(other_filter_index)));
+                if(union_filter.getCount() < this.base_capacity){
+                    other_filters.set(other_filter_index, union_filter);
+                    found_union_mate = true;
+                    break;
+                }
+            }
+            if(!found_union_mate){
+                other_filters.add(this.filters.get(i));
+            }
         }
-        for(BloomFilter filter : other.filters){
-            return_filter.filters.add(filter);
-        }
+        return_filter.filters = other_filters;
         return return_filter;
     }
 

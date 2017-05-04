@@ -22,6 +22,13 @@ public class HashFn {
     private char fmt_code;
     private MessageDigest[] salts;
 
+    /**
+     This is a HashFn container that generates the hash functions
+     for the bloom filter in the same manner to that of the dynamic-pybloom library.
+    @param num_slices
+    @param num_bits
+    @returns HashFn
+     */
     public HashFn(int num_slices, int num_bits)
             throws java.security.NoSuchAlgorithmException{
         String hash_type;
@@ -67,6 +74,11 @@ public class HashFn {
         }
     }
 
+    /**
+    Hashes a key to perform a lookup in the bloom filter
+    @param key
+    @returns 1 hash for each of the segments of the bloom filter
+     */
     public int[] hash(String key)
             throws java.lang.CloneNotSupportedException{
         int[] return_val = new int[num_slices];

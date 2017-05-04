@@ -27,6 +27,12 @@ public class BloomFilter {
 
     private int count,capacity;
 
+    /**
+     * Creates a standard BloomFilter object
+     * @param capacity the desired maximum capacity for the bloom filter, will be statically set
+     * @param error_rate the desired maximum error rte of the filter
+     * @throws NoSuchAlgorithmException (for the hashfn, in practice this should never be thrown)
+     */
     public BloomFilter(int capacity, double error_rate)
             throws NoSuchAlgorithmException {
         assert(0 < error_rate && error_rate < 1);
@@ -40,11 +46,25 @@ public class BloomFilter {
         bitarray = new BitSet();
     }
 
+    /**
+     * Creates a standard BloomFilter object with error rate of 0.001
+     * @param capacity the desired maximum capacity for the bloom filter, will be statically set
+     * @throws NoSuchAlgorithmException (for the hashfn, in practice this should never be thrown)
+     */
     public BloomFilter(int capacity)
             throws NoSuchAlgorithmException {
         this(capacity, 0.001);
     }
 
+    /**
+     * Called to actually create the BloomFilter within the package
+     * @param error_rate
+     * @param num_slices
+     * @param bits_per_slice
+     * @param capacity
+     * @param count
+     * @throws NoSuchAlgorithmException
+     */
     protected void setup(double error_rate, int num_slices, int bits_per_slice, int capacity, int count)
             throws NoSuchAlgorithmException {
         this.error_rate = error_rate;
@@ -59,6 +79,12 @@ public class BloomFilter {
         this.hash = new HashFn(num_slices, bits_per_slice);
     }
 
+    /**
+     * Lookup to see if a key is in the bloom filter
+     * @param key
+     * @return True if in the filter, False if not in the filter with error_rate < the max fro the filter
+     * @throws CloneNotSupportedException
+     */
     public boolean has(String key)
             throws CloneNotSupportedException {
         int[] hashes = hash.hash(key);
@@ -72,6 +98,16 @@ public class BloomFilter {
         return true;
     }
 
+    /**
+     * Add an element to the bloom filter.
+     * Flag skip check to put it in without checking if it is in it already first (only really
+     * useful for people building extensions on the bloom filter)
+     * @param key
+     * @param skip_check
+     * @return True if it is already in, false if it was just added
+     * @throws CloneNotSupportedException
+     * @throws IndexOutOfBoundsException
+     */
     public boolean add(String key, boolean skip_check)
             throws CloneNotSupportedException, IndexOutOfBoundsException{
         int[] hashes = hash.hash(key);
@@ -94,11 +130,22 @@ public class BloomFilter {
         return true;
     }
 
+    /**
+     * Add key to the bloom filter
+     * @param key
+     * @return true if it was already in, false if it wasn't
+     * @throws CloneNotSupportedException
+     * @throws IndexOutOfBoundsException
+     */
     public boolean add(String key)
             throws CloneNotSupportedException, IndexOutOfBoundsException {
         return this.add(key, false);
     }
 
+    /**
+     * Clone the filter
+     * @return cloned filter
+     */
     public BloomFilter clone(){
         try {
             BloomFilter return_bloom = new BloomFilter(this.capacity, this.error_rate);
@@ -110,18 +157,32 @@ public class BloomFilter {
         }
     }
 
+    /**
+     * Form the intersection of the bloom filter
+     * @param other
+     * @return this & other
+     */
     public BloomFilter intersection(BloomFilter other){
         BloomFilter return_bloom = this.clone();
         return_bloom.bitarray.and(other.bitarray);
         return return_bloom;
     }
 
+    /**
+     * Form the union of two bloom filters
+     * @param other
+     * @return this | other
+     */
     public BloomFilter union(BloomFilter other){
         BloomFilter return_bloom = this.clone();
         return_bloom.bitarray.or(other.bitarray);
         return return_bloom;
     }
 
+    /**
+     * Stringify the bloom filter in a way that is compatible with the python version of the library
+     * @return stringified bloom filter
+     */
     public String toString(){
         String return_str = "", order = "";
         ByteBuffer bytes = ByteBuffer.allocate((int) Math.ceil(num_bits/8.));
@@ -145,6 +206,13 @@ public class BloomFilter {
         return return_str;
     }
 
+    /**
+     * UnStringify a Stringified bloom filter s
+     * Used to inport from python
+     * @param s
+     * @return Bloom filter from that string
+     * @throws NoSuchAlgorithmException
+     */
     public static BloomFilter fromString(String s)
             throws NoSuchAlgorithmException {
         String[] values = s.split(":");
