@@ -5,13 +5,13 @@
 
     <groupId>com.github.srf5132</groupId>
     <artifactId>jbloom</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <version>1.0.2-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <name>jbloom</name>
     <description>jbloom is a java bloomfilter library providing interoperability with the dynamic-pybloom python library</description>
     <url>https://github.com/srf5132/jbloom</url>
-    <inceptionYear>2012</inceptionYear>
+    <inceptionYear>2017</inceptionYear>
 
     <organization>
         <name>srf5132</name>
