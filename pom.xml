@@ -5,7 +5,7 @@
 
     <groupId>com.github.srf5132</groupId>
     <artifactId>jbloom</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <name>jbloom</name>
@@ -56,7 +56,8 @@
         <connection>scm:git:git@github.com:srf5132/jbloom.git</connection>
         <developerConnection>scm:git:git@github.com:srf5132/jbloom.git</developerConnection>
         <url>git@github.com:srf5132/jbloom.git</url>
-    </scm>
+      <tag>jbloom-1.0.0</tag>
+  </scm>
 
 
     <repositories>
