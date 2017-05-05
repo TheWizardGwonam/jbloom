@@ -1,7 +1,7 @@
 jbloom
 ======
 
-``jbloom`` is a java port of the popular https://travis-ci.org/jaybaird/python-bloomfilter repo module
+``jbloom`` is a java port of the python repo https://github.com/srf5132/dynamic-pybloom
 that includes a Bloom Filter data structure, an implementation of the Scalable Bloom Filter[1] and
 an implementation of the Dynamic Bloom Filter[2].
 
