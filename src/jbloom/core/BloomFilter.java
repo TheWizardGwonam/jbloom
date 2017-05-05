@@ -7,18 +7,15 @@ import java.nio.ByteOrder;
 import java.security.NoSuchAlgorithmException;
 import java.util.BitSet;
 
-/*
-Created by Sam Findler on 4/12/2017
-
-A Bloom Filter is a probabilistic data structure that utilizes
-hashing algorithms to create a representation of a set.
-It can't produce a false negative but it has some controllable
-chance of producing a false positive because of the nature
-of finite hashes and finite bit vectors. This implementation is based
-on the dynamic-pybloom library from python (https://github.com/srf5132/dynamic-pybloom),
-and is interoperable with it through the toString and fromString methods
+/**
+ * A Bloom Filter is a probabilistic data structure that utilizes
+ * hashing algorithms to create a representation of a set.
+ * It can't produce a false negative but it has some controllable
+ * chance of producing a false positive because of the nature
+ * of finite hashes and finite bit vectors. This implementation is based
+ * on the dynamic-pybloom library from python (https://github.com/srf5132/dynamic-pybloom),
+ * and is interoperable with it through the toString and fromString methods
  */
-
 public class BloomFilter {
     protected BitSet bitarray;
     private HashFn hash;

@@ -4,7 +4,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 /**
- * Created by Sam on 4/13/2017.
+ * A modification of the Bloom Filter that modifies it's size dynamically based on
+ * "base_capacity" sized bloom filters, up to some max capacity.
  */
 public class DynamicBloomFilter {
     private ArrayList<BloomFilter> filters;

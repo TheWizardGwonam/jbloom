@@ -5,27 +5,23 @@ import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 
-/*
-created by Sam Findler on 4/12/2017
-
-Every Bloom Filter has a series of hash functions associated with it.
-HashFn implements that hash and allows the BloomFilter to carry it around with it
-Unfortunately a current limitation of java is 32 bit array indexing, so it won't be quite as
-robust as the python version
+/**
+ * Every Bloom Filter has a series of hash functions associated with it.
+ * HashFn implements that hash and allows the BloomFilter to carry it around with it
+ * Unfortunately a current limitation of java is 32 bit array indexing, so it won't be quite as
+ * robust as the python version
  */
-
-
 public class HashFn {
     private int num_salts, fmt_length, num_slices, num_bits;
     private char fmt_code;
     private MessageDigest[] salts;
 
     /**
-     This is a HashFn container that generates the hash functions
-     for the bloom filter in the same manner to that of the dynamic-pybloom library.
-    @param num_slices
-    @param num_bits
-    @returns HashFn
+     * This is a HashFn container that generates the hash functions
+     * for the bloom filter in the same manner to that of the dynamic-pybloom library.
+     * @param num_slices
+     * @param num_bits
+     * @returns HashFn
      */
     public HashFn(int num_slices, int num_bits)
             throws java.security.NoSuchAlgorithmException{
@@ -73,9 +69,9 @@ public class HashFn {
     }
 
     /**
-    Hashes a key to perform a lookup in the bloom filter
-    @param key
-    @returns 1 hash for each of the segments of the bloom filter
+     * Hashes a key to perform a lookup in the bloom filter
+     * @param key
+     * @returns 1 hash for each of the segments of the bloom filter
      */
     public int[] hash(String key)
             throws java.lang.CloneNotSupportedException{

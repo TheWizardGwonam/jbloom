@@ -18,6 +18,11 @@ is reached a new filter is then created exponentially larger than the last
 with a tighter probability of false positives and a larger number of hash
 functions.
 
+javadocs
+========
+
+Javadoc's are available as markdown in this page's `wiki <https://github.com/srf5132/jbloom/wiki>`_.
+
 installation
 ============
 This library is hosted on maven at https://repo1.maven.org/maven2/com/github/srf5132/jbloom/
