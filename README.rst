@@ -20,7 +20,8 @@ functions.
 
 installation
 ============
-installation info to come
+This library is hosted on maven at https://repo1.maven.org/maven2/com/github/srf5132/jbloom/
+the latest jar can be downloaded from there or imported into a project via maven.
 
 examples
 ========

@@ -1,0 +1,5 @@
+jbloom\core\BloomFilter.class
+jbloom\core\DynamicBloomFilter.class
+jbloom\examples\BloomFilterExample.class
+jbloom\examples\DynamicBloomFilterExample.class
+jbloom\util\HashFn.class
