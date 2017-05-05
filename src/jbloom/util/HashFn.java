@@ -1,7 +1,5 @@
 package jbloom.util;
 
-import sun.plugin2.message.Message;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;

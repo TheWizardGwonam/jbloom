@@ -6,9 +6,6 @@ import org.junit.Test;
 
 import java.security.NoSuchAlgorithmException;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
-
 /**
  * Created by srf51 on 4/12/2017.
  */

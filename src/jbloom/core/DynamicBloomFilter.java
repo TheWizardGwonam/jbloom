@@ -21,7 +21,7 @@ public class DynamicBloomFilter {
         assert(error_rate > 0 && error_rate < 1);
         assert(base_capacity > 0);
         assert(max_capacity > 0);
-        filters = new ArrayList<>((int) Math.ceil(max_capacity/base_capacity));
+        filters = new ArrayList<BloomFilter>((int) Math.ceil(max_capacity/base_capacity));
         individual_error_rate = 1 - Math.exp(Math.log(1 - error_rate)/Math.ceil(max_capacity/base_capacity));
         max_error_rate = error_rate;
         this.base_capacity = base_capacity;
